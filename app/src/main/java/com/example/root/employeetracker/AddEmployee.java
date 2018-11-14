@@ -50,6 +50,11 @@ public class AddEmployee extends AppCompatActivity {
                                             empLocation.getText().toString(),
                                             empDesignation.getText().toString());
 
+                    // clear text in the inputs
+                    empName.setText("");
+                    empLocation.setText("");
+                    empDesignation.setText("");
+
                 }// end of if statement
             }
         });

@@ -76,7 +76,7 @@ public class SqLiteHelper extends SQLiteOpenHelper {
         }
         else {
             // saved message
-            Toast.makeText(context, "Successfully Saved"+response, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Successfully "+response+" Saved", Toast.LENGTH_SHORT).show();
         }
 
         //========================== using SQL========================================
