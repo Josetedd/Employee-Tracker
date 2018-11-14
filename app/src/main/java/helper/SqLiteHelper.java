@@ -57,9 +57,9 @@ public class SqLiteHelper extends SQLiteOpenHelper {
 
         //step 1: set the values
         ContentValues values = new ContentValues();
-        values.put(NAME_COLUMN,"Joseph Mwangi");
-        values.put(LOCATION_COLUMN, "197 Lenana Place");
-        values.put(DESIGNATION_COLUMN, "IT Officer");
+        values.put(NAME_COLUMN,name);
+        values.put(LOCATION_COLUMN, location);
+        values.put(DESIGNATION_COLUMN, designation);
 
         // step 2: Insert the set values into a table
        long response = database.insert(EMPLOYEE_TABLE,null,values); // insert the values and return a long to be used to check if values were saved
