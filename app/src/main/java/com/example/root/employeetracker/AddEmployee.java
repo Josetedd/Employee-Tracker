@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import helper.SqLiteHelper;
+
 public class AddEmployee extends AppCompatActivity {
 
     @Override
@@ -40,7 +42,15 @@ public class AddEmployee extends AppCompatActivity {
 
                     // save the data on sqlite by calling the sqlitehelper
 
-                }
+                    // create a new instance of sqlite helper
+                    SqLiteHelper helper = new SqLiteHelper(AddEmployee.this);
+
+                    // insert the input using the insertEmployee method of the helper class
+                    helper.insertEmployee(empName.getText().toString(),
+                                            empLocation.getText().toString(),
+                                            empDesignation.getText().toString());
+
+                }// end of if statement
             }
         });
     }

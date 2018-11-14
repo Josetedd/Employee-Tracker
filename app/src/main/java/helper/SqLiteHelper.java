@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
+import android.widget.Toast;
 
 
 // this helper will Add/search/update/delete employees
@@ -24,9 +24,14 @@ public class SqLiteHelper extends SQLiteOpenHelper {
     private static String LOCATION_COLUMN ="location";
     private static String DESIGNATION_COLUMN ="designation";
 
+    // create a context variable
+
+    Context context;
+
     // Constructor for creating the Database EmpDb
     public SqLiteHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
+        this.context = context; // assign the context from the Activity class to the global context
     }
 
 
@@ -67,9 +72,11 @@ public class SqLiteHelper extends SQLiteOpenHelper {
        // step 3: check if record has been saved using the response returned by the insert method
         if(response==-1){
             //failed to save
+            Toast.makeText(context, "Failed to save", Toast.LENGTH_SHORT).show();
         }
         else {
             // saved message
+            Toast.makeText(context, "Successfully Saved"+response, Toast.LENGTH_SHORT).show();
         }
 
         //========================== using SQL========================================
