@@ -118,9 +118,9 @@ public class SqLiteHelper extends SQLiteOpenHelper {
 
                 empBuilder.append(recordNumber + ". ");
                 empBuilder.append(cursor.getString(cursor.getColumnIndex(NAME_COLUMN)));
-                empBuilder.append("  ");
+                empBuilder.append(" | ");
                 empBuilder.append(cursor.getString(cursor.getColumnIndex(LOCATION_COLUMN)));
-                empBuilder.append("  ");
+                empBuilder.append(" | ");
                 empBuilder.append(cursor.getString(cursor.getColumnIndex(DESIGNATION_COLUMN)));
                 empBuilder.append("\n\n");
 

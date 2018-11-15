@@ -15,6 +15,7 @@ import helper.SqLiteHelper;
 
 public class MainActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -66,7 +70,11 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+
+        }
+        else if(id == R.id.action_refresh_list){ //refreshes the Main Activity
+            finish();
+            startActivity(getIntent());
         }
 
         return super.onOptionsItemSelected(item);
