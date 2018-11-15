@@ -9,6 +9,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import helper.SqLiteHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,6 +21,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+//----------------------------***Dispay Records***------------------------
+
+        // declare and initialize Textview
+
+        TextView showEmployees = findViewById(R.id.empRecords);
+
+        // get the Record from the Db using SQLiteHelper readEmployee method
+        SqLiteHelper helper = new SqLiteHelper(MainActivity.this); //create an instance of Sqlite helper class
+
+        StringBuilder empRecords = helper.readEmployee();
+
+        // set the records to be displayed in showEmployees Text view
+
+        showEmployees.setText(empRecords.toString());
+
+//----------------------------*** FAB***------------------------------------
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -28,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
     }
 
     @Override

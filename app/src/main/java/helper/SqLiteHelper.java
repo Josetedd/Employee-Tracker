@@ -92,7 +92,7 @@ public class SqLiteHelper extends SQLiteOpenHelper {
 
 
         StringBuilder empBuilder = new StringBuilder(); // string builder object that will hold all the records
-
+        int recordNumber = 0;
 
         SQLiteDatabase database =this.getReadableDatabase(); // create an object of the current db and make it readable
         //==========================using SQL=================
@@ -110,8 +110,15 @@ public class SqLiteHelper extends SQLiteOpenHelper {
             // get employee records in the db
 
             while (cursor.moveToNext()){ //while can move to next record
-               empBuilder.append(cursor.getString(cursor.getColumnIndex(NAME_COLUMN)));
-               empBuilder.append("  ");
+
+                // increase row Number
+                recordNumber = recordNumber+1;
+
+                // append record into empBuilder StringBuilder
+
+                empBuilder.append(recordNumber + ". ");
+                empBuilder.append(cursor.getString(cursor.getColumnIndex(NAME_COLUMN)));
+                empBuilder.append("  ");
                 empBuilder.append(cursor.getString(cursor.getColumnIndex(LOCATION_COLUMN)));
                 empBuilder.append("  ");
                 empBuilder.append(cursor.getString(cursor.getColumnIndex(DESIGNATION_COLUMN)));
