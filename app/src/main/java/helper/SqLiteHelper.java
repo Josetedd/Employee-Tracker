@@ -2,6 +2,7 @@ package helper;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
@@ -59,6 +60,7 @@ public class SqLiteHelper extends SQLiteOpenHelper {
         SQLiteDatabase database = this.getWritableDatabase();  // create an object of the current Db and Make it Writable so data can be added
 
         //========================== using NoSQL====================================
+        // NoSQL is easier to use when adding record
 
         //step 1: set the values
         ContentValues values = new ContentValues();
@@ -76,20 +78,52 @@ public class SqLiteHelper extends SQLiteOpenHelper {
         }
         else {
             // saved message
-            Toast.makeText(context, "Successfully "+response+" Saved", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Successfully Saved Record No"+response, Toast.LENGTH_SHORT).show();
         }
 
         //========================== using SQL========================================
         //database.execSQL("INSERT INTO "+EMPLOYEE_TABLE+"("+NAME_COLUMN+","+LOCATION_COLUMN+","+DESIGNATION_COLUMN+") VALUES('Joseph Mwangi,197 Lenana Place, IT Officer');");
 
 
-    }// end of method
+    }// end create/ add record
 
     //-------------------*****Read Employee****------------------------------------------
-    public void readEmployee(){
-        SQLiteDatabase database =this.getReadableDatabase(); // create an object of the current db and make it readable
+    public StringBuilder readEmployee(){
 
-    }
+
+        StringBuilder empBuilder = new StringBuilder(); // string builder object that will hold all the records
+
+
+        SQLiteDatabase database =this.getReadableDatabase(); // create an object of the current db and make it readable
+        //==========================using SQL=================
+        // SQL is easier when reading record
+
+        //Create a cursor (stores rows returned either 0 rows or more
+       Cursor cursor = database.rawQuery("SELECT * FROM "+EMPLOYEE_TABLE, null);
+
+       // use the cursor to check records in the DB
+        if(cursor.getCount()<1){
+            // no record found
+            Toast.makeText(context, "No Employee Found, press add button to create new employee", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            // get employee records in the db
+
+            while (cursor.moveToNext()){ //while can move to next record
+               empBuilder.append(cursor.getString(cursor.getColumnIndex(NAME_COLUMN)));
+               empBuilder.append("  ");
+                empBuilder.append(cursor.getString(cursor.getColumnIndex(LOCATION_COLUMN)));
+                empBuilder.append("  ");
+                empBuilder.append(cursor.getString(cursor.getColumnIndex(DESIGNATION_COLUMN)));
+                empBuilder.append("\n\n");
+
+
+            }
+
+        }
+
+    return empBuilder; // return StringBuilder with the Records
+    }// end of readEmployee method
 
 
 
