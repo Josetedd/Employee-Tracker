@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 
+import helper.SqLiteHelper;
+
 public class UserRegister extends AppCompatActivity {
 
     @Override
@@ -26,6 +28,12 @@ public class UserRegister extends AppCompatActivity {
         }
         else{
             // save the records into the db
+            SqLiteHelper helper = new SqLiteHelper(UserRegister.this);
+
+            helper.insertUser(firstNameEdit.getText().toString(),
+                                lastNameEdit.getText().toString(),
+                                emailEdit.getText().toString(),
+                                passwordEdit.getText().toString());
         }
 
 
