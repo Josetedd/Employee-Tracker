@@ -17,13 +17,20 @@ public class SqLiteHelper extends SQLiteOpenHelper {
     private static String DB_NAME = "EmpDb";             // name of the database
     private static int DB_VERSION = 1;                   // database version
     private static String EMPLOYEE_TABLE = "employee";   // employee table name
+    private static String USERS_TABLE = "users";
 
-
+//********************************employee table***************************************
 
     //---------column names for employee table
     private static String NAME_COLUMN ="name";
     private static String LOCATION_COLUMN ="location";
     private static String DESIGNATION_COLUMN ="designation";
+
+    //---------column names for user table
+    private static String USER_FIRST_NAME = "first_name";
+    private static String USER_LAST_NAME = "last_name";
+    private static String EMAIL = "email";
+    private static String PASSWORD = "password";
 
     // create a context variable
 
@@ -41,15 +48,21 @@ public class SqLiteHelper extends SQLiteOpenHelper {
     // the 2 methods below must be implemented (onCreate and onUpgrade)
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // creates table
+        // creates tables
+
+        //employee table
         db.execSQL("CREATE TABLE IF NOT EXISTS "+ EMPLOYEE_TABLE +"("+NAME_COLUMN+" TEXT(50),"+LOCATION_COLUMN+" TEXT(50),"+DESIGNATION_COLUMN+" TEXT(50));");
 
+        // user table
+        db.execSQL("CREATE TABLE IF NOT EXISTS "+ USERS_TABLE +"("+USER_FIRST_NAME+ " TEXT(50),"+USER_LAST_NAME+" TEXT(50),"+EMAIL+" TEXT(100),"+PASSWORD+" TEXT(50));");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { // used when there has been change in Db structure
         // drop table on upgrade
         db.execSQL("DROP TABLE "+ EMPLOYEE_TABLE);
+        db.execSQL("DROP TABLE "+ USERS_TABLE);
+
         onCreate(db); // recreate the dropped table
 
     }
@@ -133,9 +146,52 @@ public class SqLiteHelper extends SQLiteOpenHelper {
     }// end of readEmployee method
 
 
+//------------------------------***Insert User***---------------------------------------------------
+public void insertUser(String firstName, String lastName, String email, String password){
+        SQLiteDatabase database;
+
+        // check if a user with the same email already exists if not save else toast User already exists
+                //read the record in the db
+                    database = this.getReadableDatabase();
+                    //Create a cursor (stores rows returned either 0 rows or more
+                    Cursor cursor = database.rawQuery("SELECT * FROM "+USERS_TABLE+ "WHERE "+EMAIL+ " LIKE "+ email, null);
+                    if(cursor.getCount()>0){
+                        // if record is found
+                        Toast.makeText(context, " a User with the same email already Exists", Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        // make database writable
+                        database =this.getWritableDatabase();
+                        //put values
+                        //step 1: set the values
+                        ContentValues values = new ContentValues();
+                        values.put(USER_FIRST_NAME,firstName);
+                        values.put(USER_LAST_NAME, lastName);
+                        values.put(EMAIL, email);
+                        values.put(PASSWORD, password);
+
+                        // step 2: Insert the set values into a table
+                        long response = database.insert(USERS_TABLE,null,values); // insert the values and return a long to be used to check if values were saved
+
+                        // step 3: check if record has been saved using the response returned by the insert method
+                        if(response==-1){
+                            //failed to save
+                            Toast.makeText(context, "Failed to save", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            // saved message
+                            Toast.makeText(context, "Registered ", Toast.LENGTH_SHORT).show();
+                        }
+
+                    } // end of if
+
+
+} // end of insertUser method
 
 
 
+
+//checkbox
 
 
 

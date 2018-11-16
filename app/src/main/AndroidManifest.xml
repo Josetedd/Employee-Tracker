@@ -19,7 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddEmployee"></activity>
+        <activity android:name=".AddEmployee" />
+        <activity android:name=".UserRegister"></activity>
     </application>
 
 </manifest>
