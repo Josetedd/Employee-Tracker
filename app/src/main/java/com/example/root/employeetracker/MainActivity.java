@@ -26,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
  //---------------------------*** Check if user is logged in ***-----------------
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String email = sharedPreferences.getString("email", "");
+        SharedPreferences sessionPref = getApplicationContext().getSharedPreferences("sessionPref",0);
+        String email = sessionPref.getString("email", "");
         if(email.equals("")){
             // show login activity
             Intent i = new Intent(MainActivity.this, LoginActivity.class);

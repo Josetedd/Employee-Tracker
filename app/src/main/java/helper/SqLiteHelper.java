@@ -2,10 +2,16 @@ package helper;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
+
+import com.example.root.employeetracker.LoginActivity;
+import com.example.root.employeetracker.MainActivity;
 
 
 // this helper will Add/search/update/delete employees
@@ -188,7 +194,32 @@ public void insertUser(String firstName, String lastName, String email, String p
 
 
 } // end of insertUser method
+public void userLogin(String email, String password){
+        //-------------------*** get users email and password in the db***---------------------
+    SQLiteDatabase database;
 
+    database =this.getReadableDatabase(); // make db readable
+
+    Cursor cursor = database.rawQuery("SELECT * FROM "+USERS_TABLE+" WHERE "+EMAIL+" = '"+email+"' AND "+PASSWORD+" = '"+password+"'",null); // sql query to get username or password
+    // if no record is found username or password is wrong
+    if(cursor.getCount()<1){
+        Toast.makeText(context, "Username or Password incorrect", Toast.LENGTH_SHORT).show();
+    }
+    else {
+        // get the user details
+        String userName = cursor.getString(cursor.getColumnIndex(USER_FIRST_NAME))+" "+cursor.getString(cursor.getColumnIndex(USER_LAST_NAME));
+        String userEmail =cursor.getString(cursor.getColumnIndex(EMAIL));
+        // update  sharedpreference
+        SharedPreferences sessionPref = context.getSharedPreferences("sessionPref",0);
+        SharedPreferences.Editor editor = sessionPref.edit();
+
+        editor.putString("email", userEmail);
+        editor.putString("username", userName);
+        editor.commit();
+    }
+
+
+    } //end of user login method
 
 
 
