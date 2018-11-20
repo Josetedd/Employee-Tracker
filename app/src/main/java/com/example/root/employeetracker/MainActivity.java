@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -25,7 +26,13 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
  //---------------------------*** Check if user is logged in ***-----------------
-        SharedPreferences sharedPreferences = this.getSharedPreferences("userPrefs", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String email = sharedPreferences.getString("email", "");
+        if(email.equals("")){
+            // show login activity
+            Intent i = new Intent(MainActivity.this, UserRegister.class);
+            startActivity(i);
+        }
 
 
 //----------------------------***Dispay Records***------------------------
