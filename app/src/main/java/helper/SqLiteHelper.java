@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 public class SqLiteHelper extends SQLiteOpenHelper {
 
-    private static String DB_NAME = "EmpDb";             // name of the database
+    private static String DB_NAME = "EmpDb7";             // name of the database
     private static int DB_VERSION = 1;                   // database version
     private static String EMPLOYEE_TABLE = "employee";   // employee table name
     private static String USERS_TABLE = "users";
@@ -153,8 +153,8 @@ public void insertUser(String firstName, String lastName, String email, String p
         // check if a user with the same email already exists if not save else toast User already exists
                 //read the record in the db
                     database = this.getReadableDatabase();
-                    //Create a cursor (stores rows returned either 0 rows or more
-                    Cursor cursor = database.rawQuery("SELECT * FROM "+USERS_TABLE+ "WHERE "+EMAIL+ " LIKE "+ email, null);
+                   //Create a cursor (stores rows returned either 0 rows or more
+                    Cursor cursor = database.rawQuery("SELECT * FROM "+USERS_TABLE+ " WHERE "+EMAIL+" = '"+email+"'", null);
                     if(cursor.getCount()>0){
                         // if record is found
                         Toast.makeText(context, " a User with the same email already Exists", Toast.LENGTH_LONG).show();
@@ -170,7 +170,7 @@ public void insertUser(String firstName, String lastName, String email, String p
                         values.put(EMAIL, email);
                         values.put(PASSWORD, password);
 
-                        // step 2: Insert the set values into a table
+                       // step 2: Insert the set values into a table
                         long response = database.insert(USERS_TABLE,null,values); // insert the values and return a long to be used to check if values were saved
 
                         // step 3: check if record has been saved using the response returned by the insert method
@@ -184,6 +184,7 @@ public void insertUser(String firstName, String lastName, String email, String p
                         }
 
                     } // end of if
+
 
 
 } // end of insertUser method

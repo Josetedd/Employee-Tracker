@@ -20,7 +20,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddEmployee" />
-        <activity android:name=".UserRegister"></activity>
+        <activity android:name=".UserRegister" />
+        <activity android:name=".LoginActivity"></activity>
     </application>
 
 </manifest>

@@ -30,8 +30,9 @@ public class MainActivity extends AppCompatActivity {
         String email = sharedPreferences.getString("email", "");
         if(email.equals("")){
             // show login activity
-            Intent i = new Intent(MainActivity.this, UserRegister.class);
+            Intent i = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(i);
+            finish();
         }
 
 

@@ -10,4 +10,5 @@
     <string name="text_reg_form_title">Register User</string>
     <string name="text_register_btn">Register</string>
     <string name="text_login_btn">Login</string>
+    <string name="text_back_btn">back</string>
 </resources>
