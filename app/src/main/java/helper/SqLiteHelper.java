@@ -204,18 +204,21 @@ public void userLogin(String email, String password){
         Toast.makeText(context, "Username or Password incorrect", Toast.LENGTH_SHORT).show();
     }
     else {
-        // get the user details
-        String userName = "joe";//cursor.getString(cursor.getColumnIndex(USER_FIRST_NAME));
-        String userEmail = "test";//cursor.getString(cursor.getColumnIndex(EMAIL));
-        // update  sharedpreference
-        SharedPreferences sessionPref = context.getSharedPreferences("sessionPref",0);
-        SharedPreferences.Editor editor = sessionPref.edit();
 
-        editor.putString("email", userEmail);
-        editor.putString("username", userName);
-        editor.commit();
-        // start Main Activity
+        while (cursor.moveToNext()) {
+            // get the user details
+            String userName = cursor.getString(cursor.getColumnIndex(USER_FIRST_NAME));
+            String userEmail = cursor.getString(cursor.getColumnIndex(EMAIL));
+            // update  sharedpreference
 
+            SharedPreferences sessionPref = context.getSharedPreferences("sessionPref", 0);
+            SharedPreferences.Editor editor = sessionPref.edit();
+
+            editor.putString("email", userEmail);
+            editor.putString("username", userName);
+            editor.commit();
+            // start Main Activity
+        }
         Intent i = new Intent(context, MainActivity.class);
         context.startActivity(i);
 
