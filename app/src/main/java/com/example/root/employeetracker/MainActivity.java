@@ -1,23 +1,21 @@
 package com.example.root.employeetracker;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import helper.SqLiteHelper;
 
 public class MainActivity extends AppCompatActivity {
 
+    SharedPreferences sessionPref; //declare a sharedpreference for sessions
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,45 +23,46 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
- //---------------------------*** Check if user is logged in ***-----------------
-        SharedPreferences sessionPref = getApplicationContext().getSharedPreferences("sessionPref",0);
+        //---------------------------*** Check if user is logged in ***-----------------
+        sessionPref = getSharedPreferences("sessionPref", MODE_PRIVATE);
         String email = sessionPref.getString("email", "");
-        if(email.equals("")){
+        if (email.equals("")) {
             // show login activity
             Intent i = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(i);
             finish();
-        }
+        } else {
 
 
 //----------------------------***Dispay Records***------------------------
 
-        // declare and initialize Textview
+            // declare and initialize Textview
 
-        TextView showEmployees = findViewById(R.id.empRecords);
+            TextView showEmployees = findViewById(R.id.empRecords);
 
-        // get the Record from the Db using SQLiteHelper readEmployee method
-        SqLiteHelper helper = new SqLiteHelper(MainActivity.this); //create an instance of Sqlite helper class
+            // get the Record from the Db using SQLiteHelper readEmployee method
+            SqLiteHelper helper = new SqLiteHelper(MainActivity.this); //create an instance of Sqlite helper class
 
-        StringBuilder empRecords = helper.readEmployee();
+            StringBuilder empRecords = helper.readEmployee();
 
-        // set the records to be displayed in showEmployees Text view
+            // set the records to be displayed in showEmployees Text view
 
-        showEmployees.setText(empRecords.toString());
+            showEmployees.setText(empRecords.toString());
 
 //----------------------------*** FAB***------------------------------------
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               Intent i = new Intent(MainActivity.this, AddEmployee.class);
-               startActivity(i);
+            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(MainActivity.this, AddEmployee.class);
+                    startActivity(i);
 
-            }
-        });
+                }
+            });
+        } // end of if statement for sessions
 
-    }
+    } //end of oncreate method
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -71,8 +70,6 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
-
 
 
     @Override
@@ -85,10 +82,16 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
 
-        }
-        else if(id == R.id.action_refresh_list){ //refreshes the Main Activity
+        } else if (id == R.id.action_refresh_list) { //refreshes the Main Activity
             finish();
             startActivity(getIntent());
+        } else if (id == R.id.action_logout) { //logs out by clearing session sharedpreference and opening login activity
+            SharedPreferences.Editor editor = sessionPref.edit();
+            editor.clear();
+
+            Intent i = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(i);
+
         }
 
         return super.onOptionsItemSelected(item);

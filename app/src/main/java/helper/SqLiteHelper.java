@@ -7,10 +7,8 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.preference.PreferenceManager;
 import android.widget.Toast;
 
-import com.example.root.employeetracker.LoginActivity;
 import com.example.root.employeetracker.MainActivity;
 
 
@@ -207,8 +205,8 @@ public void userLogin(String email, String password){
     }
     else {
         // get the user details
-        String userName = cursor.getString(cursor.getColumnIndex(USER_FIRST_NAME))+" "+cursor.getString(cursor.getColumnIndex(USER_LAST_NAME));
-        String userEmail =cursor.getString(cursor.getColumnIndex(EMAIL));
+        String userName = "joe";//cursor.getString(cursor.getColumnIndex(USER_FIRST_NAME));
+        String userEmail = "test";//cursor.getString(cursor.getColumnIndex(EMAIL));
         // update  sharedpreference
         SharedPreferences sessionPref = context.getSharedPreferences("sessionPref",0);
         SharedPreferences.Editor editor = sessionPref.edit();
@@ -216,6 +214,11 @@ public void userLogin(String email, String password){
         editor.putString("email", userEmail);
         editor.putString("username", userName);
         editor.commit();
+        // start Main Activity
+
+        Intent i = new Intent(context, MainActivity.class);
+        context.startActivity(i);
+
     }
 
 
